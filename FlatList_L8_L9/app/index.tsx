@@ -1,4 +1,9 @@
+import ListItemSseparator from "@/components/ListItemSeperator";
+import colors from "@/styles/colors";
 import defaultStyles from "@/styles/defaultStyles";
+import { useState } from "react";
+
+import { DATA, dataType } from "@/data/appData";
 import {
   FlatList,
   StyleSheet,
@@ -9,18 +14,6 @@ import {
 
 export default function Index() {
 
-  type dataType = {
-    id: string; // refer to the unique identifier
-    title: string; // text we will show in list
-  }
-  // using all caps because DATA array will not change
-  // during its use
-  const DATA: dataType[] = [
-    {id: "1", title: "First Item"},
-    {id: "2", title: "Second Item"},
-    {id: "3", title: "Third Item"},
-    {id: "4", title: "Fourth Item"},
-  ];
 
   // create a simple function telling me what was selective
   const selectedList = (item: dataType) => {
@@ -38,11 +31,26 @@ export default function Index() {
         <View style={styles.flatlist}>
           <FlatList 
           data= {DATA}
+          extraData={selectedId}
           keyExtractor={(item: dataType) => item.id}
+          ItemSeparatorComponent={() => 
+          <ListItemSseparator color={colors.text.light} />}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => selectedList(item)}>
-              <View style = {styles.flatListRow}>
-                <Text>{item.title}</Text>
+              <View style = {[styles.flatListRow,
+                {
+                  backgroundColor: item.id === selectedId
+                  ? colors.primary
+                  : colors.secondary,
+                }
+              ]}>
+                <Text style = {[styles.titleText,
+                  {
+                    color: item.id === selectedId
+                    ? colors.text.light
+                    : colors.text.dark,
+                  }
+                ]}>{item.title}</Text>
               </View>
             </TouchableOpacity>
           )} 
@@ -61,6 +69,9 @@ const styles = StyleSheet.create({
     backgroundColor:'lightgreen',
     marginBottom: 10,
     padding: 5,
+    width: 300,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
   titleContainer: {
     marginTop: 5,

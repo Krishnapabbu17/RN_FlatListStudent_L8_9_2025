@@ -1,11 +1,42 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  dataType
+} from "@/data/appData";
 import colors from "@/styles/colors";
+import React from "react";
+import { StyleSheet, View, TouchableOpacity, FlatList, } from "react-native";
+
 
 // declare data type for props here
+/* I am giving this ListItem component the data it needs
+to display, the status of what is selected, and the ability 
+to update the selected status when clicked on
+*/
+type propsType = {
+  item: dataType;
+  isSelected: boolean;
+  onPress: (item: dataType) => void
+}
 
-const ListItem = () => {
-  return <View></View>;
+const ListItem:React.FC<propsType> = ({item, isSelected, onPress}) => {
+  return (
+    <TouchableOpacity onPress={() => selectedList(item)}>
+              <View style = {[styles.flatListRow,
+                {
+                  backgroundColor: item.id === selectedId
+                  ? colors.primary
+                  : colors.secondary,
+                }
+              ]}>
+                <Text style = {[styles.titleText,
+                  {
+                    color: item.id === selectedId
+                    ? colors.text.light
+                    : colors.text.dark,
+                  }
+                ]}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+  )};
 };
 
 export default ListItem;
