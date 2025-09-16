@@ -3,7 +3,7 @@ import {
 } from "@/data/appData";
 import colors from "@/styles/colors";
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, FlatList, } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 
 // declare data type for props here
@@ -19,17 +19,17 @@ type propsType = {
 
 const ListItem:React.FC<propsType> = ({item, isSelected, onPress}) => {
   return (
-    <TouchableOpacity onPress={() => selectedList(item)}>
+    <TouchableOpacity onPress={() => onPress(item)}>
               <View style = {[styles.flatListRow,
                 {
-                  backgroundColor: item.id === selectedId
+                  backgroundColor: isSelected
                   ? colors.primary
                   : colors.secondary,
                 }
               ]}>
                 <Text style = {[styles.titleText,
                   {
-                    color: item.id === selectedId
+                    color: isSelected
                     ? colors.text.light
                     : colors.text.dark,
                   }
@@ -37,7 +37,7 @@ const ListItem:React.FC<propsType> = ({item, isSelected, onPress}) => {
               </View>
             </TouchableOpacity>
   )};
-};
+
 
 export default ListItem;
 
@@ -54,5 +54,26 @@ const styles = StyleSheet.create({
   text: {
     color: colors.text.dark,
     fontSize: 20,
+  },
+   flatlist: {
+    alignItems: "center",
+  },
+  flatListRow: {
+    backgroundColor:'lightgreen',
+    marginBottom: 10,
+    padding: 5,
+    width: 300,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  titleContainer: {
+    marginTop: 5,
+    width: 300,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  titleText: {
+    fontSize: 24,
+    padding: 10,
   },
 });
